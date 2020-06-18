@@ -18,7 +18,7 @@ function App() {
   useEffect(() => {
 
     API.get(
-      `/racing/?method=nextraces&count=10`, {
+      `/racing/?method=nextraces&count=50`, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -43,9 +43,9 @@ function App() {
         let grouped = _.groupBy(currentRaces, (race) => {
           return race.category_id
         })
-        setRaces(grouped[category])
+        setRaces(grouped[category].slice(0, 5))
       } else {
-        setRaces(currentRaces)
+        setRaces(currentRaces.slice(0, 5))
       }
       
       
