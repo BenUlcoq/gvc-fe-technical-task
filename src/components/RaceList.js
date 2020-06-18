@@ -4,7 +4,7 @@ import Race from './Race'
 
 export default function RaceList(props) {
 
-  let {races, count, setCount } = props
+  let { races, count, setCount } = props
 
   return (
     <div>

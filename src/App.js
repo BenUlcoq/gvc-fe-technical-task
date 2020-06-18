@@ -12,7 +12,7 @@ function App() {
 
   const [ races, setRaces ] = useState(false)
   const [ count, setCount ] = useState(0)
-  const [ grouped, setGrouped ] = useState(false)
+  const [ category, setCategory ] = useState()
 
 
   useEffect(() => {
@@ -26,14 +26,12 @@ function App() {
     )
     .then((res) => {
 
+      console.log('Cat', category)
+
       let next = res.data.data.next_to_go_ids
       
       let raceArr = next.map((id) => {
         return res.data.data.race_summaries[id];
-      })
-
-      let grouped = _.groupBy(raceArr, (race) => {
-        return race.category_id
       })
 
       let currentRaces = raceArr.filter((race) => {
@@ -41,8 +39,15 @@ function App() {
         return timeLeft >= -59
       })
 
-      setGrouped(grouped)
-      setRaces(currentRaces)
+      if (category) {
+        let grouped = _.groupBy(currentRaces, (race) => {
+          return race.category_id
+        })
+        setRaces(grouped[category])
+      } else {
+        setRaces(currentRaces)
+      }
+      
       
     })
     .catch((err) => {
@@ -50,13 +55,15 @@ function App() {
       // Notify User of Error
 
     })
-  }, [count])
+  }, [count, category])
 
   const onClickFunc = (e) => {
     e.preventDefault()
 
-    if (e.target.id) {
-      setRaces(grouped[e.target.id])
+    if (e.target.id === 'all') {
+      setCategory(null)
+    } else {
+      setCategory(e.target.id)
     }
   }
 
@@ -65,6 +72,7 @@ function App() {
       <button onClick={onClickFunc} id={greyhound}>Greyhounds</button>
       <button onClick={onClickFunc} id={harness}>Harness Racing</button>
       <button onClick={onClickFunc} id={horse}>Horse Racing</button>
+      <button onClick={onClickFunc} id={'all'}>All</button>
       {races ? <RaceList count={count} setCount={setCount} races={races}/> : null }
     </div>
   );
