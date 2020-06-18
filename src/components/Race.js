@@ -13,11 +13,16 @@ export default function Race(props) {
   useEffect(() => {
     setTimeout(() => {
       setTimeLeft(calculateTime(race.advertised_start.seconds));
+      if (timeLeft <= -60) {
+        props.setCount(props.count + 1)
+      }
     }, 1000);
   });
 
   return (
-    <div>
+    <div style={{
+      display: (timeLeft <= -60) ? 'none' : 'auto'
+    }}>
       <h2>Meeting: {race.meeting_name}</h2>
       <h4>Race Number: {race.race_number}</h4>
       <h5>Time to go: {timeLeft} seconds </h5>

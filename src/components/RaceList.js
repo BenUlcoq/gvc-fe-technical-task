@@ -4,7 +4,7 @@ import Race from './Race'
 
 export default function RaceList(props) {
 
-  let races = props.races
+  let {races, count, setCount } = props
 
   return (
     <div>
@@ -13,7 +13,7 @@ export default function RaceList(props) {
     { races ? 
       races.map((race) => {
         return (
-          <Race key={race.race_id} race={race} />
+          <Race count={count} setCount={setCount} key={race.race_id} race={race} />
         )}
       )
       : null

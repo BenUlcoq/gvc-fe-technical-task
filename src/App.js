@@ -11,7 +11,7 @@ function App() {
   const horse = '4a2788f8-e825-4d36-9894-efd4baf1cfae'
 
   const [ races, setRaces ] = useState(false)
-  // const [ all, setAll ] = useState(false)
+  const [ count, setCount ] = useState(0)
   const [ grouped, setGrouped ] = useState(false)
 
 
@@ -36,8 +36,13 @@ function App() {
         return race.category_id
       })
 
+      let currentRaces = raceArr.filter((race) => {
+        let timeLeft = (race.advertised_start.seconds - Math.floor((Date.now()/1000)))
+        return timeLeft >= -59
+      })
+
       setGrouped(grouped)
-      setRaces(raceArr)
+      setRaces(currentRaces)
       
     })
     .catch((err) => {
@@ -45,7 +50,7 @@ function App() {
       // Notify User of Error
 
     })
-  }, [])
+  }, [count])
 
   const onClickFunc = (e) => {
     e.preventDefault()
@@ -60,7 +65,7 @@ function App() {
       <button onClick={onClickFunc} id={greyhound}>Greyhounds</button>
       <button onClick={onClickFunc} id={harness}>Harness Racing</button>
       <button onClick={onClickFunc} id={horse}>Horse Racing</button>
-      {races ? <RaceList races={races}/> : null }
+      {races ? <RaceList count={count} setCount={setCount} races={races}/> : null }
     </div>
   );
 }
