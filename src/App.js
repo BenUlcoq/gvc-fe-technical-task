@@ -26,8 +26,6 @@ function App() {
     )
     .then((res) => {
 
-      console.log('Cat', category)
-
       let next = res.data.data.next_to_go_ids
       
       let raceArr = next.map((id) => {

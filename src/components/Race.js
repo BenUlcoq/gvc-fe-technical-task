@@ -13,7 +13,7 @@ export default function Race(props) {
   useEffect(() => {
     setTimeout(() => {
       setTimeLeft(calculateTime(race.advertised_start.seconds));
-      if (timeLeft <= -60) {
+      if (timeLeft <= -58) {
         props.setCount(props.count + 1)
       }
     }, 1000);
